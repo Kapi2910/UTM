@@ -1,6 +1,6 @@
 import pygame
 from time import sleep
-from utils import polToCart
+from utils import polToCart, blockPositiontoGridIndex
 from constants import *
 
 class Drone():
@@ -9,7 +9,9 @@ class Drone():
         self.rect = pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE)
         self.screen = pygame.display.get_surface()
         self.area = self.screen.get_rect()
-        self.vector = (x, y)
+        self.posx, self.posy = (x, y)
+        self.dx, self.dy = (0, 0)
+        self.set_dir = False
 
     def render(self):
         pygame.draw.rect(self.screen, RED, self.rect)
@@ -17,21 +19,26 @@ class Drone():
     def update(self):
         self.render()
         newpos = self.calcnewpos(self.rect)
-        print(self.rect.topleft)
-        sleep(0.5)
         self.rect = newpos
 
+
     def calcnewpos(self,rect):
-        dy, dx = (BLOCK_SIZE, 0)
-
-        curr_x, curr_y = (self.rect.topright)
+        if not self.set_dir:
+            half_length = N // 2
+            self.posx, self.posy = blockPositiontoGridIndex(self.rect.topleft[0], self.rect.topleft[1], scale_factor)
+            print(self.posx, self.posy)
+            if self.posy == 5 or self.posy == 6:
+                self.dx = BLOCK_SIZE if self.posx - half_length <= 0 else -BLOCK_SIZE
+            if self.posx == 5 or self.posx == 6:
+                self.dy = BLOCK_SIZE if self.posy - half_length <= 0 else -BLOCK_SIZE
+            self.set_dir = True
         
-        if curr_x > WINDOW_WIDTH - BLOCK_SIZE or curr_x < 0:
-            dx = 0
+        if self.posx < 0 or self.posx > N:
+            self.dx = 0
+        if self.posy < 0 or self.posy > N:
+            self.dy = 0
+        
 
-        if dy > WINDOW_HEIGHT  - BLOCK_SIZE or curr_y < 0:
-            dy = 0
-
-        return rect.move(dx,dy)
+        return rect.move(self.dx, self.dy)
 
     

@@ -1,17 +1,12 @@
+# have each drone check it's 8 neighbour hood
+from collections import deque
 import pygame
+from time import sleep
 from constants import *
 from drone import Drone
+from utils import blockPositiontoGridIndex
 import sys
-map_grid = [
-    [-1, -1, -1, 0, 0, -1, -1, -1],
-    [-1, -1, -1, 0, 0, -1, -1, -1],
-    [-1, -1, -1, 0, 0, -1, -1, -1],
-    [ 0,  0,  0, 0, 0,  0,  0,  0],
-    [ 0,  0,  0, 0, 0,  0,  0,  0],
-    [-1, -1, -1, 0, 0, -1, -1, -1],
-    [-1, -1, -1, 0, 0, -1, -1, -1],
-    [-1, -1, -1, 0, 0, -1, -1, -1]
-]
+
 
 
 def main():
@@ -24,11 +19,11 @@ def main():
     CLOCK = pygame.time.Clock()
     SCREEN.fill(BLACK)
 
-    drone1 = Drone(300, 0)
+    drones = deque()
     
     while True:
 
-
+        sleep(0.5)
         drawRoad()
         drawGrid()
         
@@ -36,12 +31,22 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    x, y = pygame.mouse.get_pos()
+                    xm, ym =blockPositiontoGridIndex(x, y, scale_factor)
+                    print(xm, ym)
+                    drone = Drone(xm / scale_factor, ym / scale_factor)
+                    drones.append(drone)
+            elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
 
-        drone1.update()
+        if len(drones) > 0:
+            for d in drones:
+                d.update()
+        
         pygame.display.update()
 
 
@@ -55,13 +60,11 @@ def drawRoad():
     for x in range(0, WINDOW_WIDTH, BLOCK_SIZE):
         for y in range(0, WINDOW_HEIGHT, BLOCK_SIZE):
             rect = pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE)
-            color = BLUE if (blockPositiontoGridIndex(x, y, WINDOW_WIDTH, N) == 0) else GRAY
+            x0, y0 = blockPositiontoGridIndex(x, y, scale_factor)
+            color = BLUE if (map_grid[x0][y0] == 0) else PURPLE if (map_grid[x0][y0] == 1) else GRAY
             pygame.draw.rect(SCREEN, color, rect, 0)
 
-def blockPositiontoGridIndex(x, y, window_dim, N):
-    scale_factor = N / window_dim
-    i, j = ( int(x * scale_factor), int(y * scale_factor))
-    return map_grid[i][j];
+
 
 main()
 
