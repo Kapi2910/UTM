@@ -5,16 +5,19 @@ from constants import *
 
 class Drone():
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, name, color):
         self.rect = pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE)
+        self.name = name
         self.screen = pygame.display.get_surface()
         self.area = self.screen.get_rect()
+        self.color = color
+        print(self.color)
         self.posx, self.posy = (x, y)
         self.dx, self.dy = (0, 0)
         self.set_dir = False
 
     def render(self):
-        pygame.draw.rect(self.screen, RED, self.rect)
+        pygame.draw.rect(self.screen, self.color, self.rect)
 
     def update(self):
         self.render()

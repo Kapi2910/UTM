@@ -1,10 +1,11 @@
 # have each drone check it's 8 neighbour hood
 from collections import deque
 import pygame
-from time import sleep
+from time import sleep, time
 from constants import *
 from drone import Drone
 from utils import blockPositiontoGridIndex
+from math import sin
 import sys
 
 
@@ -35,8 +36,7 @@ def main():
                 if event.button == 1:
                     x, y = pygame.mouse.get_pos()
                     xm, ym =blockPositiontoGridIndex(x, y, scale_factor)
-                    print(xm, ym)
-                    drone = Drone(xm / scale_factor, ym / scale_factor)
+                    drone = Drone(xm / scale_factor, ym / scale_factor, f"Drone-{int(time()) % 100000}", RED)
                     drones.append(drone)
             elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
@@ -45,6 +45,7 @@ def main():
 
         if len(drones) > 0:
             for d in drones:
+                print(f"{d.name}")
                 d.update()
         
         pygame.display.update()
