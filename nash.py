@@ -1,5 +1,5 @@
 # TODO
-#   # have each drone check it's 8-neighbouRhood
+#   # have each drone check it's 8-neighbourhood
 #   # one cell gap between each drone
 #   # intersection 
 
@@ -14,9 +14,11 @@ import pygame
 from time import sleep, time
 from constants import *
 from drone import Drone
+from trigger import Trigger
 from utils import blockPositiontoGridIndex
 from math import sin
 import sys
+import pubsub as pub
 
 
 
@@ -31,7 +33,7 @@ def main():
     SCREEN.fill(BLACK)
 
     drones = deque()
-    
+    trigger = Trigger()
     while True:
 
         sleep(0.5)
@@ -47,8 +49,10 @@ def main():
                     x, y = pygame.mouse.get_pos()
                     xm, ym = blockPositiontoGridIndex(x, y, scale_factor)
                     if map_grid[xm][ym] > -1:
-                        drone = Drone(xm / scale_factor, ym / scale_factor, f"Drone-{int(time()) % 100000}", RED)
+                        drone = Drone(xm, ym, f"Drone-{int(time()) % 100000}", RED)
                         drones.append(drone)
+                        trigger.attach(drones)
+                        print(trigger)
                     else:
                         print("DRONE CANNOT BE SPAWNED OUTSIDE THE CORRIDOR")
             elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
@@ -76,7 +80,6 @@ def drawRoad():
             x0, y0 = blockPositiontoGridIndex(x, y, scale_factor)
             color = BLUE if (map_grid[x0][y0] == 0) else PURPLE if (map_grid[x0][y0] == 1) else GRAY
             pygame.draw.rect(SCREEN, color, rect, 0)
-
 
 
 main()

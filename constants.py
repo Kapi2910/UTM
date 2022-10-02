@@ -31,8 +31,9 @@ RED = (235, 67, 91)
 BLUE = (100, 30, 245)
 PURPLE = (120, 50, 145)
 
-WINDOW_WIDTH = WINDOW_HEIGHT = 800
+WINDOW_WIDTH = WINDOW_HEIGHT = 960
 N = len(map_grid) # MAP GRID DIMENSIONS
+half_length = N // 2 # Half of the MAP GRID DIMENSIONS
 scale_factor = N / WINDOW_HEIGHT
 BLOCK_SIZE = getBlockSize(WINDOW_WIDTH, N, 1) #Set the size of the grid block
 
