@@ -1,0 +1,1 @@
+# Create a message object that holds information about the current cell number and drone's id
