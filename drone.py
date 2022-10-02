@@ -1,6 +1,5 @@
 import pygame
 from time import sleep
-from trigger import Trigger
 from utils import polToCart, blockPositiontoGridIndex
 from constants import *
 
@@ -20,13 +19,11 @@ class Drone:
     def render(self):
         pygame.draw.rect(self.screen, self.color, self.rect)
 
+
     def update(self):
-        self.render()
         newpos = self.calcnewpos(self.rect)
         self.rect = newpos
 
-    def intersection_trigger(self):
-        Trigger.intersection()
 
     def calcnewpos(self,rect):
         posx, posy = blockPositiontoGridIndex(self.rect.topleft[0], self.rect.topleft[1], scale_factor)
@@ -44,9 +41,9 @@ class Drone:
         
         if posy == half_length-1 or posy == half_length and posx == half_length-1 or posx == half_length:
             self.at_intersection = True
-            # self.intersection_trigger()
         else:
-            self.at_intersection = False
+            self.at_intersection = True
+
         return rect.move(self.dx, self.dy)
 
     

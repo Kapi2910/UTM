@@ -1,7 +1,11 @@
 # TODO
-#   # have each drone check it's 8-neighbourhood
+#   # Constantly send messages after a certain interval
+#   # Send the cell number to the drones
+#   # Create a class called channel that has a queue of all the message objects
+#   # Create a message object
 #   # one cell gap between each drone
 #   # intersection 
+#   # have each drone check it's 8-neighbourhood
 
 # Introduction - problem description
 # Lit Review - Introduce the acronyms, what other people are doing
@@ -14,11 +18,9 @@ import pygame
 from time import sleep, time
 from constants import *
 from drone import Drone
-from trigger import Trigger
 from utils import blockPositiontoGridIndex
 from math import sin
 import sys
-import pubsub as pub
 
 
 
@@ -32,8 +34,8 @@ def main():
     CLOCK = pygame.time.Clock()
     SCREEN.fill(BLACK)
 
+    play = False
     drones = deque()
-    trigger = Trigger()
     while True:
 
         sleep(0.5)
@@ -51,18 +53,21 @@ def main():
                     if map_grid[xm][ym] > -1:
                         drone = Drone(xm, ym, f"Drone-{int(time()) % 100000}", RED)
                         drones.append(drone)
-                        trigger.attach(drones)
-                        print(trigger)
                     else:
                         print("DRONE CANNOT BE SPAWNED OUTSIDE THE CORRIDOR")
             elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+                if event.key == pygame.K_SPACE:
+                    play = not play
+                    print(play)
 
         if len(drones) > 0:
             for d in drones:
-                d.update()
+                d.render()
+                if play:
+                    d.update()
         
         pygame.display.update()
 

@@ -36,4 +36,3 @@ N = len(map_grid) # MAP GRID DIMENSIONS
 half_length = N // 2 # Half of the MAP GRID DIMENSIONS
 scale_factor = N / WINDOW_HEIGHT
 BLOCK_SIZE = getBlockSize(WINDOW_WIDTH, N, 1) #Set the size of the grid block
-
