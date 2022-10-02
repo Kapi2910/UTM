@@ -1,4 +1,14 @@
-# have each drone check it's 8 neighbour hood
+# TODO
+#   # have each drone check it's 8-neighbouRhood
+#   # one cell gap between each drone
+#   # intersection 
+
+# Introduction - problem description
+# Lit Review - Introduce the acronyms, what other people are doing
+# Model - What have you done with regards to the problem statement
+# Experiments & Results - Proving the model is right
+# 
+
 from collections import deque
 import pygame
 from time import sleep, time
@@ -35,9 +45,12 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     x, y = pygame.mouse.get_pos()
-                    xm, ym =blockPositiontoGridIndex(x, y, scale_factor)
-                    drone = Drone(xm / scale_factor, ym / scale_factor, f"Drone-{int(time()) % 100000}", RED)
-                    drones.append(drone)
+                    xm, ym = blockPositiontoGridIndex(x, y, scale_factor)
+                    if map_grid[xm][ym] > -1:
+                        drone = Drone(xm / scale_factor, ym / scale_factor, f"Drone-{int(time()) % 100000}", RED)
+                        drones.append(drone)
+                    else:
+                        print("DRONE CANNOT BE SPAWNED OUTSIDE THE CORRIDOR")
             elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
@@ -45,7 +58,6 @@ def main():
 
         if len(drones) > 0:
             for d in drones:
-                print(f"{d.name}")
                 d.update()
         
         pygame.display.update()

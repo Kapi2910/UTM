@@ -28,11 +28,12 @@ class Drone():
     def calcnewpos(self,rect):
         if not self.set_dir:
             half_length = N // 2
+            print(half_length)
             self.posx, self.posy = blockPositiontoGridIndex(self.rect.topleft[0], self.rect.topleft[1], scale_factor)
             print(self.posx, self.posy)
-            if self.posy == 5 or self.posy == 6:
+            if self.posy == half_length-1 or self.posy == half_length:
                 self.dx = BLOCK_SIZE if self.posx - half_length <= 0 else -BLOCK_SIZE
-            if self.posx == 5 or self.posx == 6:
+            if self.posx == half_length-1 or self.posx == half_length:
                 self.dy = BLOCK_SIZE if self.posy - half_length <= 0 else -BLOCK_SIZE
             self.set_dir = True
         
