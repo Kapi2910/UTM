@@ -2,19 +2,19 @@ import pygame
 from time import sleep
 from utils import polToCart, blockPositiontoGridIndex
 from constants import *
-
+from message import Message
 class Drone:
 
     def __init__(self, x, y, name, color):
-        self.x, self.y = (x, y)
-        self.rect = pygame.Rect(x / scale_factor, y / scale_factor, BLOCK_SIZE, BLOCK_SIZE)
         self.id = name
-        self.screen = pygame.display.get_surface()
-        self.area = self.screen.get_rect()
+        self.rect = pygame.Rect(x / scale_factor, y / scale_factor, BLOCK_SIZE, BLOCK_SIZE)
         self.color = color
+        self.x, self.y = (x, y)
         self.dx, self.dy = (0, 0)
         self.set_dir = False
         self.at_intersection = False
+        self.area = self.screen.get_rect()
+        self.screen = pygame.display.get_surface()
 
     def render(self):
         pygame.draw.rect(self.screen, self.color, self.rect)
@@ -47,6 +47,13 @@ class Drone:
         return rect.move(self.dx, self.dy)
 
     
+    def publish(self):
+        """This function publishes a message to the channel every tick"""
+        pass
+
+    def subscribe(self):
+        """This function sbscribes to the channel so that it can receive a message every tick"""
+        pass
 
     # Find a modular way to to check a n-neighborhood of a cell
     def neighbors(self):

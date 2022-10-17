@@ -1,18 +1,3 @@
-# TODO
-#   # Constantly send messages after a certain interval
-#   # Send the cell number to the drones
-#   # Create a class called channel that has a queue of all the message objects
-#   # Create a message object
-#   # one cell gap between each drone
-#   # intersection 
-#   # have each drone check it's 8-neighbourhood
-
-# Introduction - problem description
-# Lit Review - Introduce the acronyms, what other people are doing
-# Model - What have you done with regards to the problem statement
-# Experiments & Results - Proving the model is right
-# 
-
 from collections import deque
 import pygame
 from time import sleep, time
