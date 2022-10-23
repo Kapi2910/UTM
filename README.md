@@ -22,6 +22,14 @@
 1. Occupied: Boolean
 2. Weather: Maybe a seperate Data Structure
 
+## Inter-drone communication model
+![Figure 1: Inter-Drone Communication Model](comms_sys.drawio.svg)
+
+The simulation of inter-drone communication entails the following:
+1. A drone e.g. Drone 1 periodically "publishes" a message onto the channel
+2. Any drone e.g. Drone 2 can read from the channel. Hence, Drone 2 is a "subscriber"
+This is why the model is called Publisher-Subscriber model.
+
 ## Paper Structure
 
 Introduction - problem description
